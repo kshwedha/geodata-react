@@ -1,3 +1,24 @@
+
+# GeoApp - Frontend - ReactJS
+
+***Geo spatial app to interact with the map and the location markings, on any activity***
+
+
+## Authors
+
+- [@kshwedha](https://www.github.com/kshwedha)
+
+
+## Documentation
+
+[Documentation](https://linktodocumentation)
+
+run  ```npm -i install```
+
+
+
+# React Guide
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
