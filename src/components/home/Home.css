@@ -45,3 +45,15 @@
     width: 30%;
     height: 100%;
 }
+
+.save-container {
+    position: bottom;
+    align-items: bottom;
+    margin-top: 20rem;
+    width: 100%;
+    height: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: bottom;
+}
