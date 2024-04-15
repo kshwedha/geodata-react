@@ -16,20 +16,20 @@ const GeoSpatialMap = () => {
     const [drawnItems, setDrawnItems] = useState(null);
     const featureGroupRef = React.useRef();
 
-    const customDrawCSS = `
-        .leaflet-draw-draw-marker {
-            background-image: url(${iconUrl});
-            background-size: cover;
-            background-position: center;
-            text-indent: -9999px;
-        }
-        .leaflet-draw-draw-rectangle:before,
-        .leaflet-draw-draw-circle:before,
-        .leaflet-draw-draw-marker:before,
-        .leaflet-draw-draw-polygon:before {
-            content: '';
-        }
-    `;
+    // const customDrawCSS = `
+    //     .leaflet-draw-draw-marker {
+    //         background-image: url(${iconUrl});
+    //         background-size: cover;
+    //         background-position: center;
+    //         text-indent: -9999px;
+    //     }
+    //     .leaflet-draw-draw-rectangle:before,
+    //     .leaflet-draw-draw-circle:before,
+    //     .leaflet-draw-draw-marker:before,
+    //     .leaflet-draw-draw-polygon:before {
+    //         content: '';
+    //     }
+    // `;
 
     const defaultMarkerIcon = new L.Icon.Default();
 
@@ -99,7 +99,7 @@ const GeoSpatialMap = () => {
             const objWithCircularRef = toJSON(drawnItems);
             const token = localStorage.getItem('token')
             const userid = localStorage.getItem('userid')
-            const response = await fetch('http://127.0.0.1:8080/save', {
+            await fetch('http://127.0.0.1:8080/save', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -132,6 +132,7 @@ const GeoSpatialMap = () => {
             console.log(drawnItems);
         }
     };
+    
 
     if (localStorage.getItem('token')) {
     return (
@@ -142,7 +143,7 @@ const GeoSpatialMap = () => {
                     <MapContainer center={[23.7127837, 79.0059413]} zoom={1} style={{ width: "100%", height: "90vh" }}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            // url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
                         />
                         {geojsonData && <GeoJSON data={geojsonData} />}
                         <FeatureGroup ref={featureGroupRef}>
