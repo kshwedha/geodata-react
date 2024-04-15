@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import { MapContainer, TileLayer, GeoJSON, FeatureGroup, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, FeatureGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
-import { Link } from "react-router-dom";
 import iconUrl from './location.svg';
 import 'leaflet/dist/leaflet.css';
 import './Home.css'
 import L from 'leaflet';
 import 'leaflet-draw/dist/leaflet.draw.css';
+import { toJSON } from 'flatted';
 
 
 
@@ -17,19 +17,19 @@ const GeoSpatialMap = () => {
     const featureGroupRef = React.useRef();
 
     const customDrawCSS = `
-   .leaflet-draw-draw-marker {
-       background-image: url(${iconUrl});
-       background-size: cover;
-       background-position: center;
-       text-indent: -9999px;
-   }
-   .leaflet-draw-draw-rectangle:before,
-   .leaflet-draw-draw-circle:before,
-   .leaflet-draw-draw-marker:before,
-   .leaflet-draw-draw-polygon:before {
-       content: '';
-   }
-`;
+        .leaflet-draw-draw-marker {
+            background-image: url(${iconUrl});
+            background-size: cover;
+            background-position: center;
+            text-indent: -9999px;
+        }
+        .leaflet-draw-draw-rectangle:before,
+        .leaflet-draw-draw-circle:before,
+        .leaflet-draw-draw-marker:before,
+        .leaflet-draw-draw-polygon:before {
+            content: '';
+        }
+    `;
 
     const defaultMarkerIcon = new L.Icon.Default();
 
@@ -95,6 +95,8 @@ const GeoSpatialMap = () => {
 
     const handleSubmit = async () => {
         try {
+            // objWithCircularRef.self = drawnItems
+            const objWithCircularRef = toJSON(drawnItems);
             const token = localStorage.getItem('token')
             const userid = localStorage.getItem('userid')
             const response = await fetch('http://127.0.0.1:8080/save', {
@@ -104,21 +106,23 @@ const GeoSpatialMap = () => {
                 'token': token,
                 'userid': userid
                 },
-                body: JSON.stringify(drawnItems),
+                body: JSON.stringify(objWithCircularRef),
             })
             .then((response) => {
                     if (!response.ok) {
-                        throw new Error('Data sent to server');
+                        throw new Error('Data not saved at server');
                     }
-                    alert('Data sent to server');
+                    alert('Data Saved Successfully.');
                     return response.json();
             })
             .then(data => {
-                    window.location.href = '/home';
+                setTimeout(() => {
+                        window.location.href = '/home'
+                }, 2000)
             });
             } catch (error) {
-            console.error('!! Error saving data', error);
-            alert('!! Error saving data');
+            console.error('!! Data not sent to server', error);
+            alert('!! Data not sent to server');
             }
         };
 
